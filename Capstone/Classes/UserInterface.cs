@@ -12,10 +12,19 @@ namespace Capstone.Classes
     /// </summary>
     public class UserInterface
     {
-        private Catering catering = new Catering();
+        private Catering catering;
+        private FileAccess files;
+
+        public UserInterface()
+        {
+            this.catering = new Catering();
+            this.files = new FileAccess();
+        }
 
         public void RunInterface()
         {
+            this.files.ReadingCateringInventory(this.catering);
+            
             bool done = false;
             while (!done)
             {
@@ -28,6 +37,7 @@ namespace Capstone.Classes
                 switch (userInput)
                 {
                     case "1": //Display Catering Items
+                        DisplayCateringItems();
                         break;
                     
                     case "2": //Order
@@ -64,6 +74,14 @@ namespace Capstone.Classes
                         done = true;
                         break;
                 }
+            }
+        }
+
+        private void DisplayCateringItems()
+        {
+            foreach (CateringItem cateringItem in this.catering.AllCateringItems)
+            {
+                Console.WriteLine(cateringItem);
             }
         }
     }

@@ -21,6 +21,11 @@ namespace Capstone.Classes
         public string Product { get; set; }
         public decimal Price { get; set; }
         public string ProductType { get; set; }
-        
+        public int QuantityInStock { get; set; } = 50;
+
+        public override string ToString()
+        {
+            return $"{this.QuantityInStock}    {this.ProductCode}--{this.Product}    {this.Price}";
+        }
     }
 }

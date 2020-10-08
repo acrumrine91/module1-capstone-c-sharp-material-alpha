@@ -8,11 +8,11 @@ Theyâ€™re releasing a new application that can be integrated with the customerâ€
 ## Application Requirements
 
 
-1. The catering system needs to track beverages, entrees, appetizers, and desserts.
+X 1. The catering system needs to track beverages, entrees, appetizers, and desserts.
 
     - Each catering item has a Name and Price.
 
-2. A main menu should display when the software is run presenting the following options:
+X 2. A main menu should display when the software is run presenting the following options:
 
         
         (1) Display Catering Items
@@ -26,7 +26,7 @@ Theyâ€™re releasing a new application that can be integrated with the customerâ€
     - Each item in the catering system has enough room for 50 of that product.
     - Every product is initially stocked to the maximum amount.
     - A product which has run out should indicate it is SOLD OUT.
-6. When the customer selects (2) Order they are guided through the purchasing menu:
+X 6. When the customer selects (2) Order they are guided through the purchasing menu:
 
         
         (1) Add Money
