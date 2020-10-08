@@ -14,11 +14,13 @@ namespace Capstone.Classes
     {
         private Catering catering;
         private FileAccess files;
+        private Accounting accounting;
 
         public UserInterface()
         {
             this.catering = new Catering();
             this.files = new FileAccess();
+            this.accounting = new Accounting();
         }
 
         public void RunInterface()
@@ -59,12 +61,15 @@ namespace Capstone.Classes
                 Console.WriteLine("(1) Add Money");
                 Console.WriteLine("(2) Select Products");
                 Console.WriteLine("(3) Complete Transaction");
-                //Current Account Balance
+                Console.WriteLine($"Current Account Balance: ${this.accounting.DisplayMoney()}");
                 string userInput = Console.ReadLine();
 
                 switch (userInput)
                 {
                     case "1": //Add Money
+                        Console.Write("How much money would you like to add to your account: ");
+                        int amountToAdd = int.Parse(Console.ReadLine());
+                        this.accounting.AddMoney(amountToAdd);
                         break;
 
                     case "2": //Select Products
