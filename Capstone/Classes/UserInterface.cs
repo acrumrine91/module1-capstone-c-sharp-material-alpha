@@ -68,11 +68,23 @@ namespace Capstone.Classes
                 {
                     case "1": //Add Money
                         Console.Write("How much money would you like to add to your account: ");
-                        int amountToAdd = int.Parse(Console.ReadLine());
-                        this.accounting.AddMoney(amountToAdd);
+                        try
+                        {
+                            int amountToAdd = int.Parse(Console.ReadLine());
+                            if ((this.accounting.DisplayMoney() + amountToAdd) > 5000)
+                            {
+                                Console.WriteLine("Your account cannot exceed $5000.");
+                            }
+                            this.accounting.AddMoney(amountToAdd);
+                        }
+                        catch (FormatException ex)
+                        {
+                            Console.WriteLine("Please use whole number values only. " + "(" + ex.Message + ")");
+                        }      
                         break;
 
                     case "2": //Select Products
+                        
                         break;
 
                     case "3": //Complete Transaction
