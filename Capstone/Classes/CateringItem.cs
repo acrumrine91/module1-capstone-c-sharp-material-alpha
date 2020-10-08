@@ -10,12 +10,28 @@ namespace Capstone.Classes
     /// </summary>
     public class CateringItem
     {
+        public CateringItem()
+        {
+
+        }
+        public CateringItem(string productCode)
+        {
+            this.ProductCode = productCode;
+        }
         public CateringItem(string productCode, string product, decimal price, string productType)
         {
             this.ProductCode = productCode;
             this.Product = product;
             this.Price = price;
             this.ProductType = productType;
+        }
+        public CateringItem(string productCode, string product, decimal price, string productType, int quantityInStock)
+        {
+            this.ProductCode = productCode;
+            this.Product = product;
+            this.Price = price;
+            this.ProductType = productType;
+            this.QuantityInStock = quantityInStock;
         }
         public string ProductCode {get; set;}
         public string Product { get; set; }
@@ -25,6 +41,11 @@ namespace Capstone.Classes
 
         public override string ToString()
         {
+            if (this.QuantityInStock == 0) // If Quantity of Product == 0, replace Quantity with "SOLD OUT".
+            {
+                return $"SOLD OUT    {this.ProductCode}--{this.Product}    {this.Price}";
+            }
+            
             return $"{this.QuantityInStock}    {this.ProductCode}--{this.Product}    {this.Price}";
         }
     }

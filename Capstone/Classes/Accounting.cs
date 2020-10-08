@@ -9,7 +9,7 @@ namespace Capstone.Classes
         private decimal accountBalance = 0.00M;
         public void AddMoney(int valueToAdd)
         {
-            if ((accountBalance + valueToAdd) <= 5000)
+            if ((accountBalance + valueToAdd) <= 5000 && valueToAdd > 0)
             {
                 accountBalance += valueToAdd;
             }

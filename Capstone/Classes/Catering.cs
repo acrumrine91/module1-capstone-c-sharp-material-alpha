@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Net;
 using System.Text;
@@ -27,5 +28,29 @@ namespace Capstone.Classes
             this.items.Add(cateringItem);
         }
 
+        public CateringItem SearchProductCode(string productCode)
+        {
+            foreach (CateringItem cateringItem in this.AllCateringItems)
+            {
+                if (cateringItem.ProductCode == productCode)
+                {
+                    return cateringItem;
+                }
+            }
+            return null;
+        }
+
+        public CateringItem ProductIsInStock(string productCode)
+        {
+            CateringItem cateringItem = new CateringItem(productCode);
+            if (cateringItem.QuantityInStock > 0)
+            {
+                return cateringItem;
+            }
+            else
+            {
+                return null;
+            }
+        }
     }
 }

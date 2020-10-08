@@ -33,6 +33,7 @@ namespace Capstone.Classes
                     string product = parts[1];
                     decimal price = decimal.Parse(parts[2]);
                     string productType = parts[3];
+                    //int quantityInStock = int.Parse(parts[4]);
 
                     // Create new instance of CateringItem.
                     CateringItem cateringItem = new CateringItem(productCode, product, price, productType);
