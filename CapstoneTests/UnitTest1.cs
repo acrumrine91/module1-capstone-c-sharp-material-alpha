@@ -1,3 +1,4 @@
+using Capstone.Classes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace CapstoneTests
@@ -8,6 +9,12 @@ namespace CapstoneTests
         [TestMethod]
         public void PurchaseItemsShouldReduceAccountBalanceAndStockOfSelectedItem()
         {
+            //Arrange
+            CateringItem cateringItem = new CateringItem();
+            cateringItem.QuantityInStock = int currentStock;
+            //Act
+
+            //Assert
 
         }
     }
