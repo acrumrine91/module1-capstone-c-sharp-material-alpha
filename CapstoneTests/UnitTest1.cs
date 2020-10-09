@@ -8,16 +8,43 @@ namespace CapstoneTests
     public class UnitTest1
     {
         [TestMethod]
-        public void PurchaseItemsShouldReduceAccountBalanceAndStockOfSelectedItem()
+        [DataRow(500, "2.55", "497.45", 1)]
+        [DataRow(1000, "236.25", "763.75", 1)]
+        [DataRow(5000, "2843.60", "2156.40", 1)]
+        public void PurchaseItemsShouldReduceAccountBalance(int valueToAdd, string price, string value, int userQuantity)
         {
             //Arrange
+            Accounting accounting = new Accounting();
             CateringItem cateringItem = new CateringItem();
-            //cateringItem.QuantityInStock = int currentStock;
+            accounting.AddMoney(valueToAdd);
+            decimal expected = decimal.Parse(value);
+            cateringItem.Price = decimal.Parse(price);
+            
+
             //Act
+            //decimal result = accounting.SubtractPurchase(cateringItem, userQuantity);
 
             //Assert
-
+            //Assert.AreEqual(expected, result);
         }
+        
+        /*[TestMethod]
+        [DataRow("B3", "2.55")]
+        public void PullOutPrice(string value)
+        {
+            //Arrange
+            Accounting accounting = new Accounting();
+            CateringItem cateringItem = new CateringItem();
+            decimal expected = decimal.Parse(value);
+            cateringItem.Price = expected;                                
+           
+            //Act
+            decimal result = accounting.SubtractPurchase(cateringItem);
+
+            //Assert
+            Assert.AreEqual(expected, result);
+        }
+        */
 
         // Accounting -- MostEfficientChange Method
         [TestMethod]

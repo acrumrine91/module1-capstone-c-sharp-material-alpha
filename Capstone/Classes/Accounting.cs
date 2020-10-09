@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace Capstone.Classes
@@ -41,6 +42,12 @@ namespace Capstone.Classes
             billsArray[6] = (int)changeOnly / 5;
 
             return billsArray;
+
+            
+        }
+        public void SubtractPurchase(CateringItem cateringItem, int userQuantity)
+        {                       
+            accountBalance -= userQuantity * cateringItem.Price;            
         }
     }
 }

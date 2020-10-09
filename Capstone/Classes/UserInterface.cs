@@ -131,9 +131,14 @@ namespace Capstone.Classes
                 Console.WriteLine("How many do you want to purchase?");
                 int userQuantityWanted = int.Parse(Console.ReadLine());
 
+
                 if (catering.ProductIsInStock(userInput).QuantityInStock <= userQuantityWanted)
                 {
                     Console.WriteLine("Sorry, we have insufficient stock of that item.");
+                }
+                else
+                {
+                    accounting.SubtractPurchase(catering.SearchProductCode(userInput), userQuantityWanted);
                 }
             }
         }
