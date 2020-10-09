@@ -16,6 +16,10 @@ namespace Capstone.Classes
                 accountBalance += valueToAdd;
             }
         }
+        public decimal ResetBalance()
+        {
+            return accountBalance = 0.00M;
+        }
         public decimal DisplayMoney()
         {
             return accountBalance;
@@ -41,13 +45,17 @@ namespace Capstone.Classes
             changeOnly -= billsArray[5] * 10;
             billsArray[6] = (int)changeOnly / 5;
 
-            return billsArray;
-
-            
+            return billsArray;            
         }
         public void SubtractPurchase(CateringItem cateringItem, int userQuantity)
         {                       
-            accountBalance -= userQuantity * cateringItem.Price;            
+            accountBalance -= userQuantity * cateringItem.Price;
+            if (cateringItem.QuantityInStock - userQuantity >= 0)
+            {
+                cateringItem.QuantityInStock -= userQuantity;            
+            }
         }
     }
 }
+
+

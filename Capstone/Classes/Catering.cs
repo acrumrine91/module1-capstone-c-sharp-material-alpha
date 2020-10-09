@@ -15,6 +15,8 @@ namespace Capstone.Classes
 
         private List<CateringItem> items = new List<CateringItem>();
 
+        private List<CateringItem> purchasedItems = new List<CateringItem>();
+
         public List<CateringItem> AllCateringItems
         {
             get
@@ -26,6 +28,11 @@ namespace Capstone.Classes
         public void Add(CateringItem cateringItem)
         {
             this.items.Add(cateringItem);
+        }
+
+        public void PurchasedAdd(CateringItem cateringItem)
+        {
+            this.purchasedItems.Add(cateringItem);
         }
 
         public CateringItem SearchProductCode(string productCode)
@@ -42,8 +49,9 @@ namespace Capstone.Classes
 
         public CateringItem ProductIsInStock(string productCode)
         {
-            CateringItem cateringItem = new CateringItem(productCode);
-            if (cateringItem.QuantityInStock > 0)
+            CateringItem cateringItem = SearchProductCode(productCode);
+            
+            if (cateringItem != null && cateringItem.QuantityInStock > 0)
             {
                 return cateringItem;
             }

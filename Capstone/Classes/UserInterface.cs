@@ -132,7 +132,7 @@ namespace Capstone.Classes
                 int userQuantityWanted = int.Parse(Console.ReadLine());
 
 
-                if (catering.ProductIsInStock(userInput).QuantityInStock <= userQuantityWanted)
+                if (catering.ProductIsInStock(userInput).QuantityInStock < userQuantityWanted)
                 {
                     Console.WriteLine("Sorry, we have insufficient stock of that item.");
                 }
