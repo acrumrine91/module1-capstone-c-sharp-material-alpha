@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
 namespace Capstone.Classes
@@ -73,6 +75,7 @@ namespace Capstone.Classes
                         {
                             int amountToAdd = int.Parse(Console.ReadLine());
                             this.AddMoney(amountToAdd);
+                            files.AccountPurchasesLog(accounting, "Added", amountToAdd);
                         }
                         catch (FormatException ex)
                         {
@@ -82,11 +85,14 @@ namespace Capstone.Classes
 
                     case "2": //Select Products
                         Console.WriteLine("Which product would you like to add to your cart? ");
-                        string userProductCode = Console.ReadLine();
+                        string userProductCode = Console.ReadLine().ToUpper();
                         this.SelectProduct(userProductCode);
                         break;
 
                     case "3": //Complete Transaction
+                        DisplayPurchaseReport();
+                        files.AccountPurchasesLog(accounting, "Change", 0);
+                        accounting.ResetBalance();
                         done = true;
                         break;
                 }
@@ -99,6 +105,24 @@ namespace Capstone.Classes
             {
                 Console.WriteLine(cateringItem);
             }
+        }
+
+        private void DisplayPurchaseReport()
+        {
+            decimal sum = 0M;
+            foreach (CateringItem cateringItem in this.catering.AllPurchasedItems)
+            {
+                Console.WriteLine(cateringItem.PurchasedFormat());
+                sum += cateringItem.PurchasedQuantity * cateringItem.Price;
+            }
+
+            int[] change = accounting.MostEfficientChange(accounting.DisplayMoney());
+
+            Console.WriteLine();
+            Console.WriteLine($"Total: {sum.ToString("C")}");
+            Console.WriteLine();
+            Console.WriteLine($"Your cash is {change[0]} twenty(ies), {change[1]} ten(s), {change[2]} fives, and {change[3]} one(s). Your change is {change[4]} quarter(s), {change[5]} dime(s), and {change[6]} nickel(s).");
+            Console.WriteLine();
         }
 
         private void AddMoney(int amountToAdd)
@@ -138,7 +162,10 @@ namespace Capstone.Classes
                 }
                 else
                 {
-                    accounting.SubtractPurchase(catering.SearchProductCode(userInput), userQuantityWanted);
+                    CateringItem itemPurchased = catering.SearchProductCode(userInput);
+                    decimal totalCost = itemPurchased.Price * userQuantityWanted;
+                    accounting.SubtractPurchase(catering, itemPurchased, userQuantityWanted);
+                    files.PurchasesLog(itemPurchased, accounting, userQuantityWanted);
                 }
             }
         }

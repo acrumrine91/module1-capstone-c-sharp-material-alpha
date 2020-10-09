@@ -45,14 +45,18 @@ namespace Capstone.Classes
             changeOnly -= billsArray[5] * 10;
             billsArray[6] = (int)changeOnly / 5;
 
-            return billsArray;            
+            return billsArray;
         }
-        public void SubtractPurchase(CateringItem cateringItem, int userQuantity)
-        {                       
+        public void SubtractPurchase(Catering catering, CateringItem cateringItem, int userQuantity)
+        {
             accountBalance -= userQuantity * cateringItem.Price;
             if (cateringItem.QuantityInStock - userQuantity >= 0)
             {
-                cateringItem.QuantityInStock -= userQuantity;            
+                cateringItem.QuantityInStock -= userQuantity;
+                if (!catering.AllPurchasedItems.Contains(cateringItem))
+                {
+                    catering.PurchasedAdd(cateringItem);
+                }
             }
         }
     }

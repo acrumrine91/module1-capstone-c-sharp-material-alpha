@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using System.Data.SqlTypes;
 
 namespace Capstone.Classes
 {
@@ -34,6 +35,22 @@ namespace Capstone.Classes
                     decimal price = decimal.Parse(parts[2]);
                     string productType = parts[3];
 
+                    switch (productType)
+                    {
+                        case "B":
+                            productType = "Beverage";
+                            break;
+                        case "E":
+                            productType = "Entree";
+                            break;
+                        case "D":
+                            productType = "Dessert";
+                            break;
+                        case "A":
+                            productType = "Appetizer";
+                            break;
+                    }
+
 
                     // Create new instance of CateringItem.
                     CateringItem cateringItem = new CateringItem(productCode, product, price, productType);
@@ -43,5 +60,30 @@ namespace Capstone.Classes
                 }
             }
         }
+
+        public void AccountPurchasesLog(Accounting accounting, string inputType, int moneyAdded)
+        {
+            using (StreamWriter writer = new StreamWriter(Path.Combine(filePath, "Log.txt"), true))
+            {
+                switch (inputType)
+                {
+                    case "Added":
+                        writer.WriteLine($"{DateTime.Now}  ADD MONEY: {moneyAdded.ToString("C")} {accounting.DisplayMoney().ToString("C")}");
+                        break;
+                    case "Change":
+                        writer.WriteLine($"{DateTime.Now}  GIVE CHANGE: {accounting.DisplayMoney().ToString("C")} $0.00");
+                        break;
+                }
+            }
+        }
+
+        public void PurchasesLog(CateringItem cateringItem, Accounting accounting, int purchasedQuantity)
+        {
+            using (StreamWriter writer = new StreamWriter(Path.Combine(filePath, "Log.txt"), true))
+            {
+                writer.WriteLine($"{DateTime.Now} {purchasedQuantity} {cateringItem.Product} {cateringItem.ProductCode} {cateringItem.Price * purchasedQuantity} {accounting.DisplayMoney()}");
+            }
+        }
     }
 }
+

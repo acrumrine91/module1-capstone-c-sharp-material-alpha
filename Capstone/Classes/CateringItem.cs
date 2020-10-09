@@ -38,15 +38,27 @@ namespace Capstone.Classes
         public decimal Price { get; set; }
         public string ProductType { get; set; }
         public int QuantityInStock { get; set; } = 50;
+        public int PurchasedQuantity
+        {
+            get
+            {
+                return 50 - QuantityInStock;
+            }
+        }
 
         public override string ToString()
         {
             if (this.QuantityInStock == 0) // If Quantity of Product == 0, replace Quantity with "SOLD OUT".
             {
-                return $"SOLD OUT    {this.ProductCode}--{this.Product}    {this.Price}";
+                return $"SOLD OUT    {this.ProductType}    {this.ProductCode}--{this.Product}    {this.Price}";
             }
             
-            return $"{this.QuantityInStock}    {this.ProductCode}--{this.Product}    {this.Price}";
+            return $"{this.QuantityInStock}    {this.ProductType}    {this.ProductCode}--{this.Product}    {this.Price}";
+        }
+
+        public string PurchasedFormat()
+        {
+            return $"{this.PurchasedQuantity}   {this.ProductType}   {this.Product}   {this.Price}   {this.Price * this.PurchasedQuantity}";
         }
     }
 }

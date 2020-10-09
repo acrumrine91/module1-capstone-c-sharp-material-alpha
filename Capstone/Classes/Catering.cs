@@ -25,6 +25,14 @@ namespace Capstone.Classes
             }
         }
 
+        public List<CateringItem> AllPurchasedItems
+        {
+            get
+            {
+                return this.purchasedItems;
+            }
+        }
+
         public void Add(CateringItem cateringItem)
         {
             this.items.Add(cateringItem);
