@@ -144,7 +144,7 @@ namespace Capstone.Classes
         {
             if (catering.SearchProductCode(userInput) == null)
             {
-                Console.WriteLine("Sorry, the product you requested is not in our inventory or sold out. Please try again.");
+                Console.WriteLine("Sorry, the product you requested is not in our inventory. Please try again.");
             }
             else if (catering.ProductIsInStock(userInput) == null)
             {
@@ -159,6 +159,10 @@ namespace Capstone.Classes
                 if (catering.ProductIsInStock(userInput).QuantityInStock < userQuantityWanted)
                 {
                     Console.WriteLine("Sorry, we have insufficient stock of that item.");
+                }
+                else if (catering.ProductIsInStock(userInput).Price*userQuantityWanted > accounting.DisplayMoney())
+                {
+                    Console.WriteLine("We're sorry, but you have insufficient funds to complete this transaction.");
                 }
                 else
                 {
