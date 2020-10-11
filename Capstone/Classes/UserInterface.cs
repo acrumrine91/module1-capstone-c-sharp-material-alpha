@@ -17,7 +17,6 @@ namespace Capstone.Classes
         private Catering catering;
         private FileAccess files;
         private Accounting accounting;
-        private CateringItem cateringItem;
 
         public UserInterface()
         {
@@ -26,6 +25,9 @@ namespace Capstone.Classes
             this.accounting = new Accounting();
         }
 
+        /// <summary>
+        /// This is the main menu method. It contains the Display Catering Items, Order, and Quit options.
+        /// </summary>
         public void RunInterface()
         {
             this.files.ReadingCateringInventory(this.catering);
@@ -41,14 +43,22 @@ namespace Capstone.Classes
 
                 switch (userInput)
                 {
-                    case "1": //Display Catering Items
+                    // Defaults to this, if userInput is anything but 1, 2, or 3.
+                    default:
+                        Console.WriteLine("Please select an appropriate option.");
+                        break;
+
+                    // Display Catering Items
+                    case "1":
                         DisplayCateringItems();
                         break;
 
-                    case "2": //Order
+                    //Order
+                    case "2":
                         PurchasingMenu();
                         break;
 
+                    //Quit
                     case "3":
                         done = true;
                         break;
@@ -56,6 +66,10 @@ namespace Capstone.Classes
             }
 
         }
+        
+        /// <summary>
+        /// This is the Purchasing Menu. It contains Add Money, Select Products, and Complete Transaction options.
+        /// </summary>
         public void PurchasingMenu()
         {
             bool done = false;
@@ -69,7 +83,13 @@ namespace Capstone.Classes
 
                 switch (userInput)
                 {
-                    case "1": //Add Money
+                    // Defaults to this if userInput is anything but 1, 2, or 3.
+                    default:
+                        Console.WriteLine("Please select an appropriate option.");
+                        break;
+
+                    //Add Money
+                    case "1": 
                         Console.Write("How much money would you like to add to your account? ");
                         try
                         {
@@ -83,13 +103,20 @@ namespace Capstone.Classes
                         }
                         break;
 
-                    case "2": //Select Products
+                    // Select Products
+                    case "2":
+                        if (accounting.DisplayMoney() == 0.00M)
+                        {
+                            Console.WriteLine("Please deposit money into your account before trying to make a purchase.");
+                            break;
+                        }
                         Console.WriteLine("Which product would you like to add to your cart? ");
                         string userProductCode = Console.ReadLine().ToUpper();
                         this.SelectProduct(userProductCode);
                         break;
 
-                    case "3": //Complete Transaction
+                    // Complete Transaction
+                    case "3": 
                         DisplayPurchaseReport();
                         files.AccountPurchasesLog(accounting, "Change", 0);
                         accounting.ResetBalance();
@@ -98,7 +125,10 @@ namespace Capstone.Classes
                 }
             }
         }
-
+        
+        /// <summary>
+        /// Displays the list of Catering Items via a foreach loop and a call to the containing list.
+        /// </summary>
         private void DisplayCateringItems()
         {
             foreach (CateringItem cateringItem in this.catering.AllCateringItems)
@@ -107,8 +137,12 @@ namespace Capstone.Classes
             }
         }
 
+        /// <summary>
+        /// Displays the purchase report or receipt.
+        /// </summary>
         private void DisplayPurchaseReport()
         {
+            // Creates the total cost of the purchase.
             decimal sum = 0M;
             foreach (CateringItem cateringItem in this.catering.AllPurchasedItems)
             {
@@ -116,6 +150,7 @@ namespace Capstone.Classes
                 sum += cateringItem.PurchasedQuantity * cateringItem.Price;
             }
 
+            // Creates the array needed to do the display of change below.
             int[] change = accounting.MostEfficientChange(accounting.DisplayMoney());
 
             Console.WriteLine();
@@ -123,8 +158,14 @@ namespace Capstone.Classes
             Console.WriteLine();
             Console.WriteLine($"Your cash is {change[0]} twenty(ies), {change[1]} ten(s), {change[2]} fives, and {change[3]} one(s). Your change is {change[4]} quarter(s), {change[5]} dime(s), and {change[6]} nickel(s).");
             Console.WriteLine();
+            Console.WriteLine($"Due to the national coin shortage, your coinage change has been credited to the National Dr. Pepper and Burrito Fund. Thank you for your wonderful donation! :-D");
+            Console.WriteLine();
         }
 
+        /// <summary>
+        /// Method that adds money to the account balance. Accepts integer amounts only.
+        /// </summary>
+        /// <param name="amountToAdd"></param>
         private void AddMoney(int amountToAdd)
         {
             if (amountToAdd <= 0)
@@ -140,6 +181,10 @@ namespace Capstone.Classes
             this.accounting.AddMoney(amountToAdd);
         }
 
+        /// <summary>
+        /// Select product method. Contains catches for not in inventory, sold out, insufficient stock, and insufficent funds. 
+        /// </summary>
+        /// <param name="userInput"></param>
         private void SelectProduct(string userInput)
         {
             if (catering.SearchProductCode(userInput) == null)
@@ -155,7 +200,6 @@ namespace Capstone.Classes
                 Console.WriteLine("How many do you want to purchase?");
                 int userQuantityWanted = int.Parse(Console.ReadLine());
 
-
                 if (catering.ProductIsInStock(userInput).QuantityInStock < userQuantityWanted)
                 {
                     Console.WriteLine("Sorry, we have insufficient stock of that item.");
@@ -167,7 +211,6 @@ namespace Capstone.Classes
                 else
                 {
                     CateringItem itemPurchased = catering.SearchProductCode(userInput);
-                    decimal totalCost = itemPurchased.Price * userQuantityWanted;
                     accounting.SubtractPurchase(catering, itemPurchased, userQuantityWanted);
                     files.PurchasesLog(itemPurchased, accounting, userQuantityWanted);
                 }

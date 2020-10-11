@@ -33,6 +33,7 @@ namespace Capstone.Classes
             this.ProductType = productType;
             this.QuantityInStock = quantityInStock;
         }
+        
         public string ProductCode {get; set;}
         public string Product { get; set; }
         public decimal Price { get; set; }
@@ -46,6 +47,10 @@ namespace Capstone.Classes
             }
         }
 
+        /// <summary>
+        /// String override to print out the correct format.
+        /// </summary>
+        /// <returns></returns>
         public override string ToString()
         {
             if (this.QuantityInStock == 0) // If Quantity of Product == 0, replace Quantity with "SOLD OUT".
@@ -56,9 +61,13 @@ namespace Capstone.Classes
             return $"{this.QuantityInStock}    {this.ProductType}    {this.ProductCode}--{this.Product}    {this.Price}";
         }
 
+        /// <summary>
+        /// Format for Display Purchase Report
+        /// </summary>
+        /// <returns></returns>
         public string PurchasedFormat()
         {
-            return $"{this.PurchasedQuantity}   {this.ProductType}   {this.Product}   {this.Price}   {this.Price * this.PurchasedQuantity}";
+            return $"{this.PurchasedQuantity}   {this.ProductType}   {this.Product}   ${this.Price}   ${this.Price * this.PurchasedQuantity}";
         }
     }
 }

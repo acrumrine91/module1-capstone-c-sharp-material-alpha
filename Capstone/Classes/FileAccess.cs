@@ -11,12 +11,14 @@ namespace Capstone.Classes
     /// </summary>
     /// 
 
-
     public class FileAccess
     {
         private string filePath = @"C:\Catering"; // You will likely need to create this folder on your machine
 
-        // Read from the Catering System file.
+        /// <summary>
+        /// Read from the Catering System file. File is a .csv with a pipe delimiter.
+        /// </summary>
+        /// <param name="catering"></param>
         public void ReadingCateringInventory(Catering catering)
         {
             using (StreamReader reader = new StreamReader(Path.Combine(filePath, "cateringsystem.csv")))
@@ -35,6 +37,7 @@ namespace Capstone.Classes
                     decimal price = decimal.Parse(parts[2]);
                     string productType = parts[3];
 
+                    // We want the internal symbol for productType to be replaced with something a human can read.
                     switch (productType)
                     {
                         case "B":
@@ -51,7 +54,6 @@ namespace Capstone.Classes
                             break;
                     }
 
-
                     // Create new instance of CateringItem.
                     CateringItem cateringItem = new CateringItem(productCode, product, price, productType);
 
@@ -61,6 +63,12 @@ namespace Capstone.Classes
             }
         }
 
+        /// <summary>
+        /// Write to Log file. This specifically deals with Money related prints --  Adding money and giving change.
+        /// </summary>
+        /// <param name="accounting"></param>
+        /// <param name="inputType"></param>
+        /// <param name="moneyAdded"></param>
         public void AccountPurchasesLog(Accounting accounting, string inputType, int moneyAdded)
         {
             using (StreamWriter writer = new StreamWriter(Path.Combine(filePath, "Log.txt"), true))
@@ -77,6 +85,12 @@ namespace Capstone.Classes
             }
         }
 
+        /// <summary>
+        /// Write to Log file. This specifically deals with purchased items.
+        /// </summary>
+        /// <param name="cateringItem"></param>
+        /// <param name="accounting"></param>
+        /// <param name="purchasedQuantity"></param>
         public void PurchasesLog(CateringItem cateringItem, Accounting accounting, int purchasedQuantity)
         {
             using (StreamWriter writer = new StreamWriter(Path.Combine(filePath, "Log.txt"), true))
